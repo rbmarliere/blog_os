@@ -27,10 +27,19 @@ pub extern "C" fn _start() -> ! {
 
 	blog_os::init();
 
+	// unsafe {
+	// 	*(0xdeadbeef as *mut u8) = 42;
+	// }
+
+	// fn stack_overflow() {
+	// 	stack_overflow();
+	// }
+	// stack_overflow();
+
 	#[cfg(test)]
 	test_main();
 
-	println!("It did not crash!");
+	// println!("It did not crash!");
 	loop {}
 }
 
