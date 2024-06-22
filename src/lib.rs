@@ -5,10 +5,13 @@
 #![test_runner(crate::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
+#[cfg(test)]
+use bootloader::{entry_point, BootInfo};
 use core::panic::PanicInfo;
 
 pub mod gdt;
 pub mod interrupts;
+pub mod memory;
 pub mod serial;
 pub mod vga_buffer;
 
@@ -78,8 +81,10 @@ pub fn hlt_loop() -> ! {
 }
 
 #[cfg(test)]
-#[no_mangle]
-pub extern "C" fn _start() -> ! {
+entry_point!(test_kmain);
+
+#[cfg(test)]
+fn test_kmain(_boot_info: &'static BootInfo) -> ! {
 	init();
 	test_main();
 	loop {}
